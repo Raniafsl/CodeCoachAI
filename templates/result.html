@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+CodeCoach Results
+{% endblock %}
+
+
+{% block content %}
+
+<h1>🤖 CodeCoach AI Results</h1>
+
+
+<div class="score">
+
+    <h2>Score</h2>
+
+    <h1>{{ score }}/100</h1>
+
+</div>
+
+
+<div class="card">
+
+    <h2>📚 Course</h2>
+
+    <p>{{ course }}</p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>📌 Rule-Based Feedback</h2>
+
+    {% for item in feedback %}
+
+        <div class="{{ item.type }} feedback-item">
+
+            <h3>{{ item.title }}</h3>
+
+            <p>{{ item.message }}</p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="card">
+
+    <h2>🤖 AI Explanation</h2>
+
+    <p class="analysis-text">
+        {{ ai_analysis.explanation }}
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>🐛 Bugs and Edge Cases</h2>
+
+    <p class="analysis-text">
+        {{ ai_analysis.bugs }}
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>⚡ Complexity Analysis</h2>
+
+    <p class="analysis-text">
+        {{ ai_analysis.complexity }}
+    </p>
+
+</div>
+
+
+<h2 class="comparison-title">
+    🔄 Code Comparison
+</h2>
+
+
+<div class="code-comparison">
+
+    <div class="code-panel">
+
+        <div class="code-panel-header">
+            Your Code
+        </div>
+
+        <pre><code>{{ code }}</code></pre>
+
+    </div>
+
+
+    <div class="comparison-arrow">
+        →
+    </div>
+
+
+    <div class="code-panel">
+
+        <div class="code-panel-header">
+            AI Suggested Version
+        </div>
+
+        {% if ai_analysis.improved_code %}
+
+            <pre><code>{{ ai_analysis.improved_code }}</code></pre>
+
+        {% else %}
+
+            <div class="empty-code-message">
+                No improved version was generated.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <h2>🎯 What to Learn Next</h2>
+
+    <p class="analysis-text">
+        {{ ai_analysis.learning_tips }}
+    </p>
+
+</div>
+
+
+<div class="result-actions">
+
+    <a href="/analyze" class="button">
+        Analyze Another Program
+    </a>
+
+    <a href="/history" class="secondary-button">
+        View History
+    </a>
+
+</div>
+
+{% endblock %}

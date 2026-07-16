@@ -1,0 +1,518 @@
+/* =========================
+   General
+========================= */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+    padding: 30px;
+    color: #222;
+}
+
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+
+h1 {
+    text-align: center;
+    color: #1f2937;
+}
+
+
+h2 {
+    color: #374151;
+}
+
+
+/* =========================
+   Navbar
+========================= */
+
+.navbar {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+
+    padding: 18px 30px;
+
+    margin-bottom: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+
+.logo {
+
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+
+.nav-links a {
+
+    margin-left: 25px;
+
+    color: #2563eb;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+}
+
+
+.nav-links a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+
+/* =========================
+   Cards
+========================= */
+
+.card,
+.score,
+.explanation {
+
+    background: white;
+
+    padding: 25px;
+
+    margin: 20px 0;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+
+.card p {
+
+    line-height: 1.6;
+
+}
+
+
+/* Feedback types */
+
+.error {
+
+    border-left: 6px solid red;
+
+}
+
+
+.warning {
+
+    border-left: 6px solid orange;
+
+}
+
+
+.success {
+
+    border-left: 6px solid green;
+
+}
+
+
+
+/* =========================
+   Score
+========================= */
+
+.score {
+
+    text-align: center;
+
+}
+
+
+.score h1 {
+
+    font-size: 55px;
+
+    color: #2563eb;
+
+}
+
+
+
+/* =========================
+   Hero
+========================= */
+
+.hero {
+
+    text-align: center;
+
+    padding: 70px 20px;
+
+}
+
+
+.hero h1 {
+
+    font-size: 48px;
+
+}
+
+
+.hero p {
+
+    font-size: 20px;
+
+    max-width: 600px;
+
+    margin: auto;
+
+    line-height: 1.6;
+
+}
+
+
+
+/* =========================
+   Forms
+========================= */
+
+input,
+textarea {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 10px 0;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    box-sizing: border-box;
+
+}
+
+
+textarea {
+
+    min-height: 250px;
+
+    font-family: "Courier New", monospace;
+
+}
+
+
+
+/* =========================
+   Buttons
+========================= */
+
+button,
+.button {
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 14px 30px;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+}
+
+
+button:hover,
+.button:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+
+/* =========================
+   Code Blocks
+========================= */
+
+pre {
+
+    background: #1e1e1e;
+
+    color: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    font-family: "Courier New", monospace;
+
+}
+
+
+
+/* =========================
+   Code Editor
+========================= */
+
+.editor {
+
+    background: #1e1e1e;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+.editor-header {
+
+    background: #333;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    font-family: monospace;
+
+}
+
+
+.editor textarea {
+
+    background: #1e1e1e;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 0;
+
+}
+
+
+.editor textarea:focus {
+
+    outline: none;
+
+}
+
+
+
+/* =========================
+   History Table
+========================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+th,
+td {
+
+    padding: 15px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+th {
+
+    background: #2563eb;
+
+    color: white;
+
+}
+
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media(max-width:700px){
+
+    .navbar {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 35px;
+
+    }
+
+}
+.username {
+    margin-left: 25px;
+    font-weight: bold;
+    color: #374151;
+}
+
+/* =========================
+   Code Comparison
+========================= */
+
+.comparison-title {
+    margin-top: 35px;
+    text-align: center;
+}
+
+
+.code-comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    gap: 18px;
+    margin: 20px 0 30px;
+}
+
+
+.code-panel {
+    min-width: 0;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.code-panel-header {
+    background: #374151;
+    color: white;
+    padding: 14px 18px;
+    font-weight: bold;
+}
+
+
+.code-panel pre {
+    margin: 0;
+    min-height: 250px;
+    border-radius: 0;
+}
+
+
+.comparison-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+
+.empty-code-message {
+    padding: 25px;
+    color: #6b7280;
+}
+
+
+.feedback-item {
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+
+.analysis-text {
+    white-space: pre-wrap;
+    line-height: 1.7;
+}
+
+
+.result-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+
+.secondary-button {
+    display: inline-block;
+    padding: 13px 28px;
+    border: 1px solid #2563eb;
+    border-radius: 10px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+
+.secondary-button:hover {
+    background: #eff6ff;
+    text-decoration: none;
+}
+
+
+@media (max-width: 800px) {
+
+    .code-comparison {
+        grid-template-columns: 1fr;
+    }
+
+
+    .comparison-arrow {
+        transform: rotate(90deg);
+        min-height: 40px;
+    }
+
+
+    .result-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .result-actions a {
+        text-align: center;
+    }
+}

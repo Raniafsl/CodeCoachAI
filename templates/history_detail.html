@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CodeCoach Report</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>📄 CodeCoach Report</h1>
+
+
+    {% if analysis %}
+
+    <div class="score">
+        <h2>Score</h2>
+        <h1>{{ analysis[3] }}/100</h1>
+    </div>
+
+
+    <div class="card">
+        <h2>📚 Course</h2>
+        <p>{{ analysis[0] }}</p>
+    </div>
+
+
+    <div class="card">
+        <h2>📝 Problem</h2>
+        <p>{{ analysis[1] }}</p>
+    </div>
+
+
+    <div class="card">
+        <h2>💻 Submitted Code</h2>
+
+        <pre><code>{{ analysis[2] }}</code></pre>
+
+    </div>
+
+
+    <div class="card">
+        <h2>🤖 AI Explanation</h2>
+        <p>{{ analysis[4] }}</p>
+    </div>
+
+
+    <div class="card">
+        <h2>💡 Improvements</h2>
+        <p>{{ analysis[5] }}</p>
+    </div>
+
+
+    {% else %}
+
+    <div class="card">
+        <h2>No analysis found</h2>
+    </div>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="/history" class="button">
+        ← Back to History
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

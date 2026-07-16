@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Analyze Code
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>🤖 CodeCoach AI</h1>
+
+    <p>Paste your code below and get AI feedback.</p>
+
+
+    <form action="/analyze" method="POST">
+
+        <label>Course:</label>
+        <input type="text" name="course" placeholder="Example: CS136">
+
+
+        <label>Your Code:</label>
+
+        <textarea 
+            name="code"
+            rows="15"
+            placeholder="Paste your code here..."
+            required></textarea>
+
+
+        <button type="submit">
+            Analyze Code 🚀
+        </button>
+
+    </form>
+
+
+{% endblock %}

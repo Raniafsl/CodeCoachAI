@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CodeCoach AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <h2>🤖 CodeCoach AI</h2>
+
+    <div>
+        <a href="/">Home</a>
+        <a href="/coach">Analyze</a>
+        <a href="/history">History</a>
+    </div>
+
+</nav>
+
+
+
+<div class="container">
+
+
+    <h1>🤖 CodeCoach AI</h1>
+
+
+    <p style="text-align:center;">
+        Your AI programming mentor
+    </p>
+
+
+
+    <form action="/analyze" method="POST">
+
+
+        <label>
+            Course
+        </label>
+
+        <input 
+            type="text"
+            name="course"
+            placeholder="Example: CS136">
+
+
+
+        <label>
+            Problem Description
+        </label>
+
+        <input 
+            type="text"
+            name="problem"
+            placeholder="What is your program supposed to do?">
+
+
+
+        <label>
+            Paste your Python code
+        </label>
+
+
+
+        <div class="editor">
+
+
+            <div class="editor-header">
+                Python Code
+            </div>
+
+
+            <textarea
+                name="code"
+                placeholder="Paste your Python code here"></textarea>
+
+
+        </div>
+
+
+
+        <br><br>
+
+
+
+        <button type="submit">
+            Analyze Code
+        </button>
+
+
+
+    </form>
+
+
+</div>
+
+
+</body>
+
+</html>

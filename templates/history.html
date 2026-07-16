@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+History
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>📚 CodeCoach History</h1>
+
+    {% if analyses %}
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Problem</th>
+                <th>Score</th>
+                <th>Date</th>
+                <th>View</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+        {% for analysis in analyses %}
+
+            <tr>
+
+                <td>
+                    {{ analysis[1] }}
+                </td>
+
+
+                <td>
+                    {{ analysis[2] }}
+                </td>
+
+
+                <td>
+                    {{ analysis[3] }}/100
+                </td>
+
+
+                <td>
+                    {{ analysis[4] }}
+                </td>
+
+
+                <td>
+                    <a href="/history/{{ analysis[0] }}">
+                        View Analysis →
+                    </a>
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+    {% else %}
+
+        <div class="card">
+
+            <h2>No history yet</h2>
+
+            <p>
+                Submit your first code analysis to see it here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="/analyze" class="button">
+        Analyze New Code 🚀
+    </a>
+
+
+{% endblock %}
