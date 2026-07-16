@@ -2,66 +2,45 @@ import json
 import os
 
 import ollama
-from ollama import Client
 
 
-def get_ollama_client():
+def demo_analysis():
     """
-    Use Ollama Cloud when an API key exists.
-    Otherwise, use the local Ollama server.
+    Used on the public deployed demo because the local Ollama
+    model running on the developer's computer is not available online.
     """
 
-    api_key = os.environ.get("OLLAMA_API_KEY")
-
-    if api_key:
-        return Client(
-            host="https://ollama.com",
-            headers={
-                "Authorization": f"Bearer {api_key}"
-            }
+    return {
+        "explanation": (
+            "The public demo is running without the local Llama model. "
+            "The rule-based analyzer and scoring system are still active. "
+            "Run CodeCoach locally with Ollama for the complete AI analysis."
+        ),
+        "bugs": (
+            "AI-powered bug detection is available in the local version."
+        ),
+        "improved_code": "",
+        "complexity": (
+            "AI-generated complexity analysis is available in the local version."
+        ),
+        "learning_tips": (
+            "Clone the GitHub repository and run Ollama with llama3.2:3b "
+            "to use the complete AI tutoring features."
         )
-
-    return ollama.Client()
-
-
-def get_model_name():
-    """
-    Use the model set by the hosting platform.
-    Default to the local model on this computer.
-    """
-
-    return os.environ.get(
-        "OLLAMA_MODEL",
-        "llama3.2:3b"
-    )
-
-
-def clean_json_response(text):
-    """
-    Removes common Markdown formatting before parsing JSON.
-    """
-
-    text = text.strip()
-
-    if text.startswith("```json"):
-        text = text[7:]
-
-    elif text.startswith("```"):
-        text = text[3:]
-
-    if text.endswith("```"):
-        text = text[:-3]
-
-    return text.strip()
+    }
 
 
 def generate_ai_analysis(code, feedback, course, problem=""):
 
+    # Render will have DEMO_MODE set to "true".
+    # On your Mac, it will be absent, so local Ollama will still run.
+    if os.environ.get("DEMO_MODE", "").lower() == "true":
+        return demo_analysis()
+
     prompt = f"""
 You are CodeCoach AI, an experienced Computer Science Teaching Assistant.
 
-Course:
-{course}
+The student is taking: {course}
 
 Programming problem:
 {problem}
@@ -72,52 +51,66 @@ Student code:
 Rule-based feedback:
 {feedback}
 
-Evaluate:
+Analyze the student's code for:
 
-1. Correctness
-2. Readability
-3. Bugs and edge cases
-4. Variable naming
-5. Time complexity
-6. Space complexity
-7. Possible improvements
+- correctness
+- readability
+- bugs and edge cases
+- variable naming
+- time complexity
+- space complexity
+- possible improvements
 
-Return ONLY valid JSON.
+Be clear, accurate, and beginner-friendly.
 
-Do not use Markdown.
-Do not include text before or after the JSON.
-
-Use exactly these string fields:
-
-{{
-    "explanation": "...",
-    "bugs": "...",
-    "improved_code": "...",
-    "complexity": "...",
-    "learning_tips": "..."
-}}
+Return a result matching the required JSON structure.
 """
+
+    schema = {
+        "type": "object",
+        "properties": {
+            "explanation": {
+                "type": "string"
+            },
+            "bugs": {
+                "type": "string"
+            },
+            "improved_code": {
+                "type": "string"
+            },
+            "complexity": {
+                "type": "string"
+            },
+            "learning_tips": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "explanation",
+            "bugs",
+            "improved_code",
+            "complexity",
+            "learning_tips"
+        ]
+    }
 
     fallback = {
         "explanation": "AI analysis is currently unavailable.",
         "bugs": "No AI bug analysis was generated.",
         "improved_code": "",
         "complexity": "No complexity analysis was generated.",
-        "learning_tips": "Please try again later."
+        "learning_tips": "Make sure Ollama is running and try again."
     }
 
     try:
-        client = get_ollama_client()
-        model = get_model_name()
-
-        response = client.chat(
-            model=model,
+        response = ollama.chat(
+            model="llama3.2:3b",
             messages=[
                 {
                     "role": "system",
                     "content": (
                         "You are a programming tutor. "
-                        "Return only valid JSON with string values."
+                        "Return only data matching the supplied JSON schema."
                     )
                 },
                 {
@@ -125,14 +118,14 @@ Use exactly these string fields:
                     "content": prompt
                 }
             ],
+            format=schema,
             options={
                 "temperature": 0
             }
         )
 
         text = response["message"]["content"]
-        cleaned_text = clean_json_response(text)
-        result = json.loads(cleaned_text)
+        result = json.loads(text)
 
         return {
             "explanation": str(result.get("explanation", "")),
@@ -144,10 +137,12 @@ Use exactly these string fields:
 
     except json.JSONDecodeError:
         fallback["bugs"] = (
-            "The AI response could not be parsed. Please try again."
+            "Ollama returned a response that could not be parsed."
         )
         return fallback
 
     except Exception as error:
-        fallback["bugs"] = f"AI connection error: {error}"
+        fallback["bugs"] = (
+            f"Unable to connect to Ollama: {error}"
+        )
         return fallback
