@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, session, redirect
+import json
+import os
 import sqlite3
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,7 +10,11 @@ from services.analyzer import analyze_code, calculate_score
 
 
 app = Flask(__name__)
-app.secret_key = "codecoach-secret-key"
+
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "codecoach-local-development-key"
+)
 
 
 # ---------------- DATABASE ----------------
@@ -45,6 +51,36 @@ def init_db():
     conn.close()
 
 
+# ---------------- HELPER ----------------
+
+def convert_to_text(value):
+    """
+    Converts AI-generated lists or dictionaries into text
+    before saving them in SQLite.
+    """
+
+    if value is None:
+        return ""
+
+    if isinstance(value, str):
+        return value
+
+    if isinstance(value, list):
+        return "\n".join(
+            f"• {convert_to_text(item)}"
+            for item in value
+        )
+
+    if isinstance(value, dict):
+        return json.dumps(
+            value,
+            indent=2,
+            ensure_ascii=False
+        )
+
+    return str(value)
+
+
 # ---------------- ROUTES ----------------
 
 @app.route("/")
@@ -66,13 +102,22 @@ def signup():
 
     if request.method == "POST":
 
-        username = request.form["username"].strip()
-        password = request.form["password"]
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
+
+        password = request.form.get(
+            "password",
+            ""
+        )
 
         if username == "" or password == "":
             return "Username and password are required."
 
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(
+            password
+        )
 
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
@@ -92,6 +137,7 @@ def signup():
         except sqlite3.IntegrityError:
 
             conn.close()
+
             return "Username already exists."
 
         conn.close()
@@ -108,8 +154,15 @@ def login():
 
     if request.method == "POST":
 
-        username = request.form["username"].strip()
-        password = request.form["password"]
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
+
+        password = request.form.get(
+            "password",
+            ""
+        )
 
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
@@ -118,13 +171,18 @@ def login():
         SELECT id, username, password
         FROM users
         WHERE username = ?
-        """, (username,))
+        """, (
+            username,
+        ))
 
         user = cursor.fetchone()
 
         conn.close()
 
-        if user and check_password_hash(user[2], password):
+        if user and check_password_hash(
+            user[2],
+            password
+        ):
 
             session["user_id"] = user[0]
             session["username"] = user[1]
@@ -151,70 +209,94 @@ def logout():
 @app.route("/analyze", methods=["GET", "POST"])
 def analyze():
 
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("analyze.html")
 
-        code = request.form["code"]
-        course = request.form["course"]
-        problem = request.form.get("problem", "")
+    code = request.form.get(
+        "code",
+        ""
+    )
 
-        feedback = analyze_code(
-            code,
-            problem,
-            course
+    course = request.form.get(
+        "course",
+        ""
+    )
+
+    problem = request.form.get(
+        "problem",
+        ""
+    )
+
+    feedback = analyze_code(
+        code,
+        problem,
+        course
+    )
+
+    score = calculate_score(
+        code,
+        feedback
+    )
+
+    ai_analysis = generate_ai_analysis(
+        code,
+        feedback,
+        course,
+        problem
+    )
+
+    explanation = convert_to_text(
+        ai_analysis.get(
+            "explanation",
+            ""
         )
+    )
 
-        score = calculate_score(
-            code,
-            feedback
+    learning_tips = convert_to_text(
+        ai_analysis.get(
+            "learning_tips",
+            ""
         )
+    )
 
-        ai_analysis = generate_ai_analysis(
-    code,
-    feedback,
-    course,
-    problem
-)
+    user_id = session.get("user_id")
 
-        user_id = session.get("user_id")
+    conn = sqlite3.connect("users.db")
+    cursor = conn.cursor()
 
-        conn = sqlite3.connect("users.db")
-        cursor = conn.cursor()
+    cursor.execute("""
+    INSERT INTO history
+    (
+        user_id,
+        course,
+        problem,
+        code,
+        score,
+        explanation,
+        improvement
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (
+        user_id,
+        course,
+        problem,
+        code,
+        score,
+        explanation,
+        learning_tips
+    ))
 
-        cursor.execute("""
-        INSERT INTO history
-        (
-            user_id,
-            course,
-            problem,
-            code,
-            score,
-            explanation,
-            improvement
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            user_id,
-            course,
-            problem,
-            code,
-            score,
-            ai_analysis["explanation"],
-            ai_analysis["learning_tips"]
-        ))
+    conn.commit()
+    conn.close()
 
-        conn.commit()
-        conn.close()
-
-        return render_template(
-            "result.html",
-            feedback=feedback,
-            course=course,
-            score=score,
-            ai_analysis=ai_analysis,
-            code=code
-        )
-
-    return render_template("analyze.html")
+    return render_template(
+        "result.html",
+        feedback=feedback,
+        course=course,
+        score=score,
+        ai_analysis=ai_analysis,
+        code=code
+    )
 
 
 # ---------------- HISTORY ----------------
@@ -232,7 +314,9 @@ def history():
         FROM history
         WHERE user_id = ?
         ORDER BY id DESC
-        """, (session["user_id"],))
+        """, (
+            session["user_id"],
+        ))
 
     else:
 
@@ -255,8 +339,8 @@ def history():
 
 # ---------------- HISTORY DETAIL ----------------
 
-@app.route("/history/<int:id>")
-def history_detail(id):
+@app.route("/history/<int:analysis_id>")
+def history_detail(analysis_id):
 
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
@@ -264,21 +348,35 @@ def history_detail(id):
     if "user_id" in session:
 
         cursor.execute("""
-        SELECT course, problem, code, score, explanation, improvement
+        SELECT
+            course,
+            problem,
+            code,
+            score,
+            explanation,
+            improvement
         FROM history
         WHERE id = ? AND user_id = ?
         """, (
-            id,
+            analysis_id,
             session["user_id"]
         ))
 
     else:
 
         cursor.execute("""
-        SELECT course, problem, code, score, explanation, improvement
+        SELECT
+            course,
+            problem,
+            code,
+            score,
+            explanation,
+            improvement
         FROM history
         WHERE id = ? AND user_id IS NULL
-        """, (id,))
+        """, (
+            analysis_id,
+        ))
 
     analysis = cursor.fetchone()
 
@@ -292,8 +390,9 @@ def history_detail(id):
 
 # ---------------- START ----------------
 
-if __name__ == "__main__":
+init_db()
 
-    init_db()
+
+if __name__ == "__main__":
 
     app.run(debug=True)
