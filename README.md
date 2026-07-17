@@ -34,9 +34,13 @@ The deployed version demonstrates the application's interface and rule-based ana
 
 ---
 
-### 📊 Results
+### 📊 Results — Overview
 
-![Results](screenshots/results.png)
+![Results Overview](screenshots/result.png)
+
+### 📊 Results — Code Comparison
+
+![Results Code Comparison](screenshots/result2.png)
 
 ---
 
