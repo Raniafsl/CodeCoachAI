@@ -1,12 +1,12 @@
-# 🤖 CodeCoach AI
+# CodeCoach AI
 
 An AI-powered code review platform that helps beginner programmers improve their Python code through automated feedback, scoring, and personalized explanations.
 
-🌐 **Live Demo:** https://codecoachai.onrender.com
+**Live Demo:** https://codecoachai.onrender.com
 
 ---
 
-## 📖 Overview
+## Overview
 
 CodeCoach AI analyzes Python programs using a combination of:
 
@@ -20,15 +20,15 @@ The goal is to help students understand **why** their code can be improved—not
 The deployed version demonstrates the application's interface and rule-based analysis. The full AI tutoring experience is available when running the project locally with Ollama.
 
 ---
-## 📸 Screenshots
+## Screenshots
 
-### 🏠 Home
+###  Home
 
 ![Home](screenshots/home.png)
 
 ---
 
-### 💻 Analyze Code
+### Analyze Code
 
 ![Analyze](screenshots/analyze.png)
 
@@ -44,24 +44,24 @@ The deployed version demonstrates the application's interface and rule-based ana
 
 ---
 
-### 📚 History
+###  History
 
 ![History](screenshots/history.png)
 
-## ✨ Features
+##  Features
 
-- 🤖 AI-generated code explanations
-- 📌 Rule-based bug detection
-- 📊 Code quality score (0–100)
-- 📚 Personalized learning tips
-- 💻 Side-by-side code comparison
-- 📝 Submission history
-- 🔐 User authentication
-- 🌐 Public web deployment with Render
+-  AI-generated code explanations
+-  Rule-based bug detection
+-  Code quality score (0–100)
+-  Personalized learning tips
+-  Side-by-side code comparison
+-  Submission history
+-  User authentication
+-  Public web deployment with Render
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Backend
 
@@ -89,7 +89,7 @@ The deployed version demonstrates the application's interface and rule-based ana
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 CodeCoachAI/
@@ -113,7 +113,7 @@ CodeCoachAI/
 
 ---
 
-## 🚀 Running Locally
+##  Running Locally
 
 Clone the repository:
 
@@ -163,7 +163,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 Run the unit tests:
 
@@ -173,7 +173,7 @@ pytest
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 The application is deployed using **Render**.
 
@@ -183,7 +183,7 @@ The complete AI tutoring functionality is available when running the application
 
 ---
 
-## 📈 Future Improvements
+## Future Improvements
 
 - Support multiple programming languages
 - Richer static code analysis
@@ -195,11 +195,11 @@ The complete AI tutoring functionality is available when running the application
 
 ---
 
-## 👩‍💻 Author
+##  Author
 
 **Rania Faisal**
 
-Computer Science Student  
+Computer Science Student,  
 University of Waterloo
 
 GitHub:
