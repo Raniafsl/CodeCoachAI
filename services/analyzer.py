@@ -44,7 +44,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "error",
-            "title": "❌ No Code Found",
+            "title": "No Code Found",
             "message": "Paste some code so CodeCoach can analyze it."
         })
 
@@ -82,7 +82,7 @@ def analyze_code(code, problem, course):
 
                     feedback.append({
                         "type": "error",
-                        "title": "⚠ Possible Missing Base Case",
+                        "title": "Possible Missing Base Case",
                         "message": "Recursive function may not stop."
                     })
 
@@ -92,7 +92,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "error",
-            "title": "⚠ Infinite Loop Risk",
+            "title": "Infinite Loop Risk",
             "message": "Make sure your loop has an exit condition."
         })
 
@@ -102,7 +102,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "warning",
-            "title": "💡 Debug Statement Found",
+            "title": "Debug Statement Found",
             "message": "Remove print statements before submitting."
         })
 
@@ -112,7 +112,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "warning",
-            "title": "⚠ Efficiency Issue",
+            "title": "Efficiency Issue",
             "message": "Possible nested loops detected."
         })
 
@@ -122,7 +122,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "warning",
-            "title": "💡 Incomplete Code",
+            "title": "Incomplete Code",
             "message": "TODO comments remain."
         })
 
@@ -132,7 +132,7 @@ def analyze_code(code, problem, course):
 
         feedback.append({
             "type": "success",
-            "title": "✅ Looks Good!",
+            "title": "Looks Good!",
             "message": "No obvious issues detected."
         })
 

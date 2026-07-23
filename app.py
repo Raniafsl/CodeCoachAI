@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, flash
 import json
 import os
 import sqlite3
@@ -89,12 +89,6 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/coach")
-def coach():
-
-    return render_template("coach.html")
-
-
 # ---------------- SIGNUP ----------------
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -113,7 +107,8 @@ def signup():
         )
 
         if username == "" or password == "":
-            return "Username and password are required."
+            flash("Username and password are required.", "error")
+            return redirect("/signup")
 
         hashed_password = generate_password_hash(
             password
@@ -138,7 +133,8 @@ def signup():
 
             conn.close()
 
-            return "Username already exists."
+            flash("Username already exists.", "error")
+            return redirect("/signup")
 
         conn.close()
 
@@ -189,7 +185,8 @@ def login():
 
             return redirect("/")
 
-        return "Invalid username or password."
+        flash("Invalid username or password.", "error")
+        return redirect("/login")
 
     return render_template("login.html")
 
