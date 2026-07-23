@@ -141,6 +141,24 @@ h2 {
 }
 
 
+.feedback-item.error,
+.flash-message.error {
+    background: #fef2f2;
+}
+
+
+.feedback-item.warning,
+.flash-message.warning {
+    background: #fffbeb;
+}
+
+
+.feedback-item.success,
+.flash-message.success {
+    background: #f0fdf4;
+}
+
+
 
 /* =========================
    Score
@@ -196,10 +214,41 @@ h2 {
 }
 
 
+.features-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+    gap: 20px;
+
+}
+
+
+.features-grid .card {
+
+    margin: 0;
+
+}
+
+
 
 /* =========================
    Forms
 ========================= */
+
+label {
+
+    display: block;
+
+    margin: 15px 0 6px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+}
+
 
 input,
 textarea {
@@ -215,6 +264,20 @@ textarea {
     border: 1px solid #ccc;
 
     box-sizing: border-box;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+}
+
+
+input:focus,
+textarea:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 
 }
 
@@ -333,6 +396,8 @@ pre {
 
     outline: none;
 
+    box-shadow: none;
+
 }
 
 
@@ -340,6 +405,15 @@ pre {
 /* =========================
    History Table
 ========================= */
+
+.table-wrapper {
+
+    overflow-x: auto;
+
+    border-radius: 12px;
+
+}
+
 
 table {
 
